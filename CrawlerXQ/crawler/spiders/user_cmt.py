@@ -14,17 +14,17 @@ import re
 
 class XQUserStatus(Spider):
     start_at=datetime.now()
-    name = 'xq_user_cmt'
+    name = 'xq_user_cmt_zh'
     logger = util.set_logger(name, LOG_FILE_USER_STATUS)
     #handle_httpstatus_list = [404]
 
     def start_requests(self):
-        start_url="https://xueqiu.com/v4/statuses/user_timeline.json?&count=20&user_id="
+        start_url="https://xueqiu.com/v4/statuses/user_timeline.json?&count=50&user_id=" # 雪球的cmt一个页面最多显示50条
 
         ## get start url from MongoDB
         db = util.set_mongo_server()
         owner_ids = []
-        for id in db.xq_cube_info.find({}, {'owner_id': 1, '_id': 0}):
+        for id in db.xq_cube_info_zh.find({}, {'owner_id': 1, '_id': 0}):
             owner_ids.append(id['owner_id'])
         owner_ids = list(set(owner_ids))
 

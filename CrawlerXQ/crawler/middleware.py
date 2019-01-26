@@ -41,8 +41,8 @@ class CustomHttpTunnelMiddleware(object):
 
         # 代理隧道验证信息
         # 别随便用老子花钱买的 API！
-        proxy_user = "H28UQFV5946J854D"
-        proxy_pass = "EAC3146D9528C257"
+        proxy_user = "H9834503A6P7XRKD"
+        proxy_pass = "7C352A9FD0AF0C4B"
         auth = (proxy_user + ":" + proxy_pass).encode()
         self.proxy_auth = "Basic " + (base64.urlsafe_b64encode(auth)).decode()
 

@@ -34,11 +34,11 @@ USER_AGENTS = ["Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrow
 # Downloader middleware
 DOWNLOADER_MIDDLEWARES = {
     'crawler.middleware.RandomRequestHeaders': 100,
-    #'crawler.middleware.CustomHttpTunnelMiddleware': 200,
+    'crawler.middleware.CustomHttpTunnelMiddleware': 200,
 }
 
 # Download delay
-DOWNLOAD_DELAY = 0
+DOWNLOAD_DELAY = 2
 
 # Auto Throttle
 AUTO_THROTTLE_ENABLE = False
@@ -72,14 +72,39 @@ COOKIES_DEBUG = False
 COOKIES = [{
     #每次更新数据都需要更新cookies！！
     #登陆cookie
-    #除抓SP的RB和RET，其余都要用登陆cookie！！！！
-    'xq_a_token': '986ecb0b1f22f4e4d791cf2f9e4a7cbf1d419e37',
-    'xq_r_token': '7fa8958adb6bb9ca005b839b430ea8ba468862c5'
+    #除抓SP的RB和RET，其余都要用登陆cookies！！！！,抓cmt时要用到多个 cookies！！
+    #李锐1
+    #'xq_a_token': 'e70965f6f42f3bbc5da6cbd6f85cfa16ca94adfc',
+    #'xq_r_token': '3b995ce3d2b51ba87575f3ba7a6e83d0ad655c09'
+    
+    #李锐2
+    #'xq_a_token': 'e029b4f540f31c5be07b34078fb2da5951583f2d',
+    #'xq_r_token': '7887f44183ce16c88e8cde15a506b8f9b2135ce3'
+
+    #俞嘉炜1
+    #'xq_a_token': '668d3197161bd1a6eff003331cde4a8ef73e38e7',
+    #'xq_r_token': 'c21252196a9adc011c58b52ac549c10fefc227bb'
+
+    #俞嘉炜2
+    #'xq_a_token': '844d797a48670311981a03793f1cdab22c5a246d',
+    #'xq_r_token': '08670fece89dd1b71b5b735c8708ce64d3d2b842 '
+
+    #俞嘉炜3
+    'xq_a_token': '3cbfb297b5f1ffa313e858b6f34c5056f9972c12',
+    'xq_r_token': 'c4e66858d090b76d7cf846c8ad5451cb4e594a1e'
+
+    #祝宇
+    #'xq_a_token': '800caafc7fb8e868b966cba35030d2ac73947616',
+    #'xq_r_token': '00f02b8db37375ac965ee83bfcdaf250f333fe05'    
+
+    #林依洋
+    #'xq_a_token': '51b7711e12b877baf9b7c3f93dc5636187722afe',
+    #'xq_r_token': '79bdbe6895750c55f28cd3338217ef0e1d567510'
 
     #非登陆cookie
-    #抓SP的RB和RET时候，要用非登陆cookie！！！！
-    #'xq_a_token': '776387e115646e8a4dcf81553387afac7c5a0279',
-    #'xq_r_token': '9aa288619afa6f30f122dbef0f3344cd504570993'
+    #抓SP的RB和RET时候，要用非登陆cookies！！！！
+    #'xq_a_token': '8dd2cc84915c45983930bb32e788dc93e0fcfddd',
+    #'xq_r_token': '5bb4c968b369150a382906ceba61eb8763282a13'
 }]
 
 
@@ -105,7 +130,7 @@ LOG_FILE_MIDDLEWARE = 'log-Middleware.log'
 # MongoDB settings
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27018
-MONGODB_DBNAME = 'XQ-1810'
+MONGODB_DBNAME = 'XQ-1901'
 
 # Redis
 # Enables scheduling storing requests queue in redis.

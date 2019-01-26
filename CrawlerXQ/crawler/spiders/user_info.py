@@ -17,7 +17,7 @@ class XQUserInfo(Spider):
     name = 'xq_user_info'
     logger = util.set_logger(name, LOG_FILE_USER_INFO)
     #handle_httpstatus_list = [404]
-    cube_type = 'ZH'
+    cube_type = 'SP'
 
     def start_requests(self):
         start_url="https://xueqiu.com/user/show.json?id="
