@@ -53,7 +53,8 @@ DOWNLOADER_STATS = True
 COOKIES_ENABLED = True
 COOKIES_DEBUG = False
 
-
+# Referrer
+REFERER_ENABLED = False
 
 # Log
 # 不能写入LOG_FILE，因为LOG_FILE是root

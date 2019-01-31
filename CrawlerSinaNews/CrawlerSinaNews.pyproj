@@ -38,6 +38,9 @@
     <Compile Include="crawler\spiders\SinaNewsSpider.py" />
     <Compile Include="crawler\spiders\__init__.py" />
     <Compile Include="crawler\__init__.py" />
+    <Compile Include="crawler\spiders\sina_news.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="run_crawler.py" />
   </ItemGroup>
   <ItemGroup>
