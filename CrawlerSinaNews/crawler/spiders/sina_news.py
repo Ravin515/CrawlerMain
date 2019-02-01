@@ -16,23 +16,24 @@ class SinaNewsSpider(Spider):
 
     def start_requests(self):
         # 新闻类别 lid 取值 (2510:国内,2511:国际,2669:社会,2512:体育,2513:娱乐,2514:军事,2515:科技,2516:财经,2517:股市,2518:美股)
-        lid = "2512"
-
-        #设置起始时间和终止时间的时间戳
-        etime = time.strptime("2018-10-01 00:00:00", "%Y-%m-%d %H:%M:%S")
-        stime = time.strptime("2019-01-02 00:00:00", "%Y-%m-%d %H:%M:%S")
-        etime = int(time.mktime(etime))
-        stime = int(time.mktime(stime))
-        etime = str(etime)
-        stime = str(stime)
-        ctime = stime
-
-        # channel 
         channel_list = {'2510':'国内','2511':'国际','2669':'社会','2512':'体育','2513':'娱乐','2514':'军事','2515':'科技','2516':'财经','2517':'股市','2518':'美股'}
-        channel = {'title':channel_list[lid], 'id':lid, 'cType':'lid', 'url':''}
+        for lid in channel_list.keys():
+            lid = "2516"
+
+            #设置起始时间和终止时间的时间戳
+            etime = time.strptime("2018-10-01 00:00:00", "%Y-%m-%d %H:%M:%S")
+            stime = time.strptime("2019-01-02 00:00:00", "%Y-%m-%d %H:%M:%S")
+            etime = int(time.mktime(etime))
+            stime = int(time.mktime(stime))
+            etime = str(etime)
+            stime = str(stime)
+            ctime = stime
+
+            # channel 
+            channel = {'title':channel_list[lid], 'id':lid, 'cType':'lid', 'url':''}
         
-        start_url = "https://feed.mix.sina.com.cn/api/roll/get?pageid=153&lid=%s&etime=%s&stime=%s&ctime=%s&k=&num=50&page=1" % (lid,etime,stime,ctime)
-        yield Request(url = start_url, meta = {'start_url' : start_url, 'channel' : channel}, callback = self.parse_page)
+            start_url = "https://feed.mix.sina.com.cn/api/roll/get?pageid=153&lid=%s&etime=%s&stime=%s&ctime=%s&k=&num=50&page=1" % (lid,etime,stime,ctime)
+            yield Request(url = start_url, meta = {'start_url' : start_url, 'channel' : channel}, callback = self.parse_page)
 
     def parse_page(self, response):
         js = json.loads(response.body)
@@ -66,9 +67,10 @@ class SinaNewsSpider(Spider):
             # cmt_id
             cmt_id = {}
             cmtid = re.search('(.+?):(.+):',i['commentid'])
-            cmt_id['channel'] = cmtid.group(1)
-            cmt_id['comment_id'] = cmtid.group(2)
-            item['content']['cmt_id'] = cmt_id
+            if cmtid:
+                cmt_id['channel'] = cmtid.group(1)
+                cmt_id['comment_id'] = cmtid.group(2)
+                item['content']['cmt_id'] = cmt_id
             # url
             url = i['url']
             item['content']['url'] = url
@@ -106,8 +108,8 @@ class SinaNewsSpider(Spider):
         
             #parse reply
             replynum = response.meta['replynum']
-            if replynum:
-                cmt_id = response.meta['cmt_id']
+            cmt_id = response.meta['cmt_id']
+            if replynum & ('channel' in cmt_id):
                 #计算reply api的页数
                 if replynum % 20:
                     rptotal = replynum // 20 + 1
