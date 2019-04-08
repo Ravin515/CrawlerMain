@@ -134,7 +134,7 @@ COOKIES_DEBUG = False
 
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27018
-MONGODB_DBNAME = 'Guba-1811'
+MONGODB_DBNAME = 'Guba-1904'
 
 # Redis
 # Enables scheduling storing requests queue in redis.

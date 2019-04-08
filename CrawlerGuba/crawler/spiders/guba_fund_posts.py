@@ -38,10 +38,11 @@ class FundSpider(Spider):
         #解析每个论坛的页数  
     def parse_page_num(self, response):
         item = response.meta['item']
-        pager = response.xpath('//div[@class="pager"]').extract()[0]
-        postnums = re.search("_\|(\d+)\|",pager).group(1)
-        item['content']['postnums'] = int(postnums)
         try:
+            pager = response.xpath('//div[@class="pager"]').extract()[0]
+            postnums = re.search("_\|(\d+)\|",pager).group(1)
+            item['content']['postnums'] = int(postnums)
+        
             heads = re.search("of(.*?)\|", pager).group(1)
             if item['content']['postnums'] % 80:
                 page_total = item['content']['postnums'] // 80 + 1
@@ -60,7 +61,7 @@ class FundSpider(Spider):
 
     def parse_post_list(self, response):
         item = response.meta['item']
-        posts = response.xpath('//div[@class="articleh"] | //div[@class="articleh odd"]').extract()
+        posts = response.xpath('//div[@class="articleh normal_post"] | //div[@class="articleh normal_postodd"]').extract()
         for post in posts:
             readnum = Selector(text = post).xpath('//span[@class="l1"]/text()').extract()
             if readnum:
@@ -79,7 +80,8 @@ class FundSpider(Spider):
                 guba_id = re.search('of(\d+?)_',response.url).group(1)
                 if guba_id in url and re.search('^\/', url):
                     post_url = 'http://guba.eastmoney.com' + url
-                    item['content']['post_id'] = re.split('\.', url)[0]
+                    #item['content']['post_id'] = re.split('\.', url)[0]
+                    item['content']['post_id'] = post_id = re.search('\/(n.+)\.html', url).group(1)
                     yield Request(url = post_url, meta = {'item':copy.deepcopy(item),'replynum':replynum,'posttype':posttype}, callback = self.parse_post)
     
     def parse_post(self, response):
@@ -121,14 +123,16 @@ class FundSpider(Spider):
 
             if posttype:#针对公告的帖子
                 try:
-                        postcontent =response.xpath('//span[@class="zwtitlepdf"]//a/@href').extract()[0]
-                        item['content']['content'] = postcontent
+                    #有PDF的帖子抓PDF链接
+                    postcontent =response.xpath('//span[@class="zwtitlepdf"]//a/@href').extract()[0]
+                    item['content']['content'] = postcontent
                 except:
                     try:
                         postcontent =response.xpath('//div[@class="stockcodec"]//a/@href').extract()[0]
                         item['content']['content'] = postcontent
                     except:
                         try:
+                            #文字公告
                             postcontent =response.xpath('//p[@style="line-height: 164.28%;"]/text()').extract()
                             postcontent = "".join(postcontent).strip()
                             item['content']['content'] = postcontent
@@ -138,7 +142,7 @@ class FundSpider(Spider):
                 posttitle = response.xpath('//div[@id="zwconttbt"]/text()').extract()
                 item['content']['title'] = posttitle[0].strip() + "[Announcement]"
             else:#针对普通的帖子
-                postcontent = response.xpath('//div[@class="stockcodec"]/text()').extract()
+                postcontent = response.xpath('//div[@class="stockcodec .xeditor"]/text() | //p/text()').extract()
                 postcontent = "".join(postcontent).strip()
                 item['content']['content'] = postcontent
         
@@ -165,7 +169,7 @@ class FundSpider(Spider):
     def parse_reply(self, response):
         item = response.meta['item']
 
-        replists = response.xpath('//div[@class="zwli clearfix"]').extract()
+        replists = response.xpath('//div[@class="zwlitxt"]').extract()
         for replist in replists:
             reply = {} 
             try:
@@ -188,21 +192,19 @@ class FundSpider(Spider):
             reply['reply_time'] = reply_time
 
 
-            reply_content = Selector(text = replist).xpath('//div[@class="zwlitext stockcodec"]/text()').extract()
+            reply_content = Selector(text = replist).xpath('//div[@class="zwlitext  stockcodec"]//div[@class="short_text"]/text() | //div[@class="zwlitext yasuo stockcodec"]//div[@class="full_text"]/text()').extract()
             if reply_content:
                 reply['reply_content'] = reply_content[0].strip()
 
-
-            #xpath的@class后面引号内容最后带有一个空格
-            reply_quote_author = Selector(text = replist).xpath('//div[@class="zwlitalkboxtext "]//a/text()').extract()
+            reply_quote_author = Selector(text = replist).xpath('//a[@class="tooltipstered"]/text()').extract()
             if reply_quote_author:
                 reply['reply_quote_author'] = reply_quote_author[0]
                 
-            reply_quote_author_url = Selector(text = replist).xpath('//div[@class="zwlitalkboxtext "]//a/@href').extract()
+            reply_quote_author_url = Selector(text = replist).xpath('//div[@class="zwlitalkboxtext "]//a/@href | //div[@class="zwlitalkboxtext  yasuo"]//a/@href').extract()
             if reply_quote_author_url:
                 reply['reply_quote_author_url'] = reply_quote_author_url[0]
 
-            reply_quote_content = Selector(text = replist).xpath('//div[@class="zwlitalkboxtext "]//span/text()').extract()
+            reply_quote_content = Selector(text = replist).xpath('//div[@class="zwlitalkboxtext "]//div[@class="short_text"]/text()  | //div[@class="zwlitalkboxtext  yasuo"]//div[@class="full_text"]/text()').extract()
             if reply_quote_content:
                 reply['reply_quote_content'] = reply_quote_content[0].strip()
 

@@ -180,7 +180,8 @@ class GubaExFundSpider(Spider):
                             return
 
                 try: #针对普通帖子
-                    postcontent = hxs.xpath('//div[@id="zwconbody"]/div[@class="stockcodec .xeditor"]/text()').extract()[0].strip()
+                    postcontent = hxs.xpath('//div[@class="stockcodec .xeditor"]/text() | //p/text()').extract()
+                    postcontent = "".join(postcontent).strip()
                     if postcontent:
                         item['content']['content'] = postcontent
 
@@ -255,7 +256,7 @@ class GubaExFundSpider(Spider):
             reply_time = datetime.strptime(reply_time, "%Y-%m-%d %H:%M:%S")
             reply['reply_time'] = reply_time
             
-            reply_content = Selector(text = replist).xpath('//div[@class="zwlitext yasuo stockcodec"]//div[@class="short_text"] | //div[@class="zwlitext  stockcodec"]//div[@class="short_text"]/text()').extract()
+            reply_content = Selector(text = replist).xpath('//div[@class="zwlitext yasuo stockcodec"]//div[@class="full_text"]/text() | //div[@class="zwlitext  stockcodec"]//div[@class="short_text"]/text()').extract()
             if reply_content:
                 reply['reply_content'] = reply_content[0].strip()
         
@@ -269,7 +270,7 @@ class GubaExFundSpider(Spider):
                 reply_quote_author_url = reply_quote_author_url[0]
                 reply['reply_quote_author_url'] = reply_quote_author_url
 
-            reply_quote_text = Selector(text = replist).xpath('//div[@class= "zwlitalkboxtext "]//div[@class="short_text"]/text() | //div[@class= "zwlitalkboxtext  yasuo"]//div[@class="short_text"]/text()').extract()
+            reply_quote_text = Selector(text = replist).xpath('//div[@class= "zwlitalkboxtext "]//div[@class="full_text"]/text()').extract()
             if reply_quote_text:
                 reply_quote_text = reply_quote_text[0].strip()
                 reply['reply_quote_content'] =  reply_quote_text
