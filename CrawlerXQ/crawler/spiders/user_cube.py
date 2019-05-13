@@ -11,17 +11,16 @@ import re
 
 class XQUserInfo(Spider):
     start_at=datetime.now()
-    name = 'xq_user_stock'
+    name = 'xq_user_cube'
     logger = util.set_logger(name, LOG_FILE_USER_STOCK)
     #handle_httpstatus_list = [404]
-    cube_type = 'ZH'
+    #cube_type = 'ZH'
 
     def start_requests(self):
         #start_url="https://xueqiu.com/stock/portfolio/stocks.json?size=5000&tuid="
-        start_url = "https://stock.xueqiu.com/v5/stock/portfolio/stock/list.json?size=10000&category=1000&pid=-1&uid="
+        start_url = "https://stock.xueqiu.com/v5/stock/portfolio/stock/list.json?size=10000&category=1000&pid=-120&uid="
 
-        # get start url from MongoDB
-        db = util.set_mongo_server()
+2        db = util.set_mongo_server()
         owner_ids = []
         for id in db.xq_cube_info.find({}, {'owner_id': 1, '_id': 0}):
             owner_ids.append(id['owner_id'])
@@ -58,3 +57,4 @@ class XQUserInfo(Spider):
 
         except Exception as ex:
             self.logger.warn('Parse Exception: %s %s' % (str(ex), response.url))
+

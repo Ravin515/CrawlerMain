@@ -13,8 +13,9 @@ process = CrawlerProcess(get_project_settings())
 #spider_name = 'xq_user_follow'#                   ZH/SP-1901 Done      不用开代理！
 #spider_name = 'xq_user_info'#                       ZH/SP-1901 Done      不用开代理！
 #spider_name = 'xq_user_info_weibo'#           1901             Done      需要开代理！DOWNLOAD_DELAY = 0.025
-#spider_name = 'xq_user_stock'#                    ZH/SP-1901  Done      不用开代理！
-spider_name = 'xq_user_cmt_zh'#                                         Done      需要开代理！DOWNLOAD_DELAY = 2
+spider_name = 'xq_user_stock'#                    ZH/SP-1901  Done      不用开代理！
+#spider_name = 'xq_user_cube'#                    
+#spider_name = 'xq_user_cmt_zh'#                                         Done      需要开代理！DOWNLOAD_DELAY = 2
 #spider_name = 'xq_user_cmt_sp'#                 1901              Done      需要开代理！DOWNLOAD_DELAY = 2
 process.crawl(spider_name)
 process.start()

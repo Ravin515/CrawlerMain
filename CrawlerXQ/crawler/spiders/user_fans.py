@@ -15,16 +15,16 @@ class XQUserFensi(Spider):
     name = 'xq_user_fans'
     logger = util.set_logger(name, LOG_FILE_USER_FENSI)
     #handle_httpstatus_list = [404]
-    cube_type = 'SP'
+    #cube_type = 'SP'
 
 
     def start_requests(self):
-        start_url="http://xueqiu.com/friendships/followers.json?size=1000&uid="
+        start_url="http://xueqiu.com/friendships/followers.json?size=50&uid="
 
         # get start url from MongoDB
         db = util.set_mongo_server()
         owner_ids = []
-        for id in db.xq_cube_info.find({'cube_type':self.cube_type}, {'owner_id': 1, '_id': 0}):
+        for id in db.xq_cube_info.find({},{'owner_id': 1, '_id': 0}):
             owner_ids.append(id['owner_id'])
         owner_ids = list(set(owner_ids))
 
