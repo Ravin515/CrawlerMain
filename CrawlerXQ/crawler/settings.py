@@ -38,7 +38,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 # Download delay
-DOWNLOAD_DELAY = 0
+DOWNLOAD_DELAY = 0.01
 
 # Auto Throttle
 AUTO_THROTTLE_ENABLE = False
@@ -72,7 +72,7 @@ COOKIES_ENABLED = True
 COOKIES_DEBUG = False
 COOKIES = [{
     #每次更新数据都需要更新cookies！！
-    'xq_a_token' : '62c76bcb2dcc3aa55d754d345301ac59fbd80d07'
+    'xq_a_token' : '7eaa5d85cf675e16f514194963a2ca470461bb88'
 }]
 
 
