@@ -276,6 +276,7 @@ class CookiesGenerate(object):
                 self.Imgpath = 'login/template/screenImg.png'
                 self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="outer"]/div/div[2]/form/div/div[2]/div/p/a[1]'))).click()
                 print('开始进行OCR验证')
+                ocr_count = 1
                 while True:
                     self.ocr_main()
                     time.sleep(2)
@@ -286,11 +287,17 @@ class CookiesGenerate(object):
                             print('已连接雪球')
                         # 点击允许授权
                         self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="outer"]/div/div[2]/div/div[2]/div[2]/p/a[1]'))).click()
+                        print('OCR验证成功')
                         break
-                    else:
+                    elif count < 5:
                         # 点击换一换按钮，换验证码图片
                         self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="outer"]/div/div[2]/form/div/div[1]/div[1]/p[3]/a'))).click()
-                print('OCR验证成功')
+                        count = count + 1
+                    else:
+                        print('OCR验证失败')
+                        self.browser.quit()
+                        cookie = None
+                        return cookie
                 self.alert_box()
                 ##########滑块验证码
                 if len(self.browser.window_handles) == 2:
