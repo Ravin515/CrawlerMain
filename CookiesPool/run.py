@@ -13,8 +13,5 @@ def main():
     #l = CookiesGenerate(username,password)
     #cookie = l.main()
 
-    
-
-
 if __name__ == '__main__':
     main()

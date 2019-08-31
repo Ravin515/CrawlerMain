@@ -51,7 +51,8 @@ class XQUserStatus(Spider):
             if response.status == 200 and str(response.url) != "https://xueqiu.com/service/captcha":
                 body = json.loads(response.body.decode('utf-8'))
                 if body['maxPage']:
-                    max_page = min(5, body['maxPage'])
+                    #max_page = min(5, body['maxPage'])
+                    max_page = body['maxPage']
                     page = body['page']
 
                     # First page

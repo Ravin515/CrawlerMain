@@ -11,8 +11,8 @@ process = CrawlerProcess(get_project_settings())
 #spider_name = 'xq_user_follow'#             Done       不用开代理！
 #spider_name = 'xq_user_info'#                  Done    不用开代理！
 #spider_name = 'xq_user_info_weibo'#     Done       需要开代理！
-spider_name = 'xq_user_stock'#              Done       不用开代理！
+#spider_name = 'xq_user_stock'#              Done       不用开代理！
 #spider_name = 'xq_user_cube'#               Done      不用开代理！
-#spider_name = 'xq_user_cmt'#                  需要开代理！
+spider_name = 'xq_user_cmt'#                  需要开代理！
 process.crawl(spider_name)
 process.start()

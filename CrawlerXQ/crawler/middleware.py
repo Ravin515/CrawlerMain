@@ -31,7 +31,6 @@ class RandomRequestHeaders(object):
 
     def process_request(self, request, spider):
         request.headers.setdefault('User-Agent', random.choice(self.agents))
-        #request.cookies = random.choice(self.cookies)
         request.cookies = self.cookies[0]
 
 class CustomHttpTunnelMiddleware(object):
@@ -81,3 +80,37 @@ class CustomHttpTunnelMiddleware(object):
         if isinstance(exception, DONT_RETRY_ERRORS):
             logger.info("Middleware Exception %s, %s" % (request.url, exception))
             return self.add_proxy(request)
+
+
+
+
+class RandomCookies(object):
+    def __init__(self, host=REDIS_HOST, port=REDIS_PORT):
+        """
+        初始化Redis连接
+        :param host: 地址
+        :param port: 端口
+        :param password: 密码
+        """
+        self.db = redis.StrictRedis(host=host, port=port, db = 15, decode_responses=True)
+        self.type = 'cookies'
+        self.website = 'xueqiu'
+
+    def random(self):
+        """
+        随机得到键值，用于随机Cookies获取
+        :return: 随机Cookies
+        """
+        return random.choice(self.db.hvals(self.name()))
+
+    def name(self):
+        """
+        获取Hash的名称
+        :return: Hash名称
+        """
+        return "{type}:{website}".format(type=self.type, website=self.website)
+
+
+    def process_request(self, request, spider):
+        request.cookies = json.loads(self.random())
+

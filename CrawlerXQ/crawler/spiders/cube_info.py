@@ -28,8 +28,8 @@ class XQCubeInfoSpider(Spider):
         # 对于SP，从100万至110万   XQ-1806, ZH: 1320446个;  SP:  33895个
         start_page = 1000000
         end_page = 2000000
-        #start_page = 1048971
-        #end_page = 1048985
+        #start_page = 1048986
+        #end_page = 1048990
 
         # iterate each page
         all_page_n = end_page - start_page + 1
