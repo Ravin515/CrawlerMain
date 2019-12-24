@@ -4,12 +4,14 @@ from cookiespool.scheduler import Scheduler
 from cookiespool.tester import XueqiuValidTester
 
 
-#username = '13455863320'
-#password = 'px274586'
 
 def main():
     s = Scheduler()
     s.run()
+
+    # 调试用以下代码
+    #username = '13455863320'
+    #password = 'px274586'
     #l = CookiesGenerate(username,password)
     #cookie = l.main()
 

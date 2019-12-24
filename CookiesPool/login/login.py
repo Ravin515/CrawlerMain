@@ -50,7 +50,7 @@ class CookiesGenerate(object):
         #找到首页上的登录按钮并点击
         self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/nav/div[1]/div[2]/div/div'))).click()
         #找到登录界面的微博登录按钮并点击
-        self.wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[3]/div[1]/div/div/div[2]/div[5]/ul/li[3]/a/i'))).click()
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div[1]/div/div/div[2]/div[5]/ul/li[3]/a/i'))).click()
         #找到账号密码登录按钮并点击
         time.sleep(0.5)
         self.browser.switch_to.window(self.browser.window_handles[1])
