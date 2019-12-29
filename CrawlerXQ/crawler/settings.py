@@ -73,7 +73,7 @@ COOKIES_ENABLED = True
 COOKIES_DEBUG = False
 COOKIES = [{
     #每次更新数据都需要更新cookies！！
-    'xq_a_token' : 'd831cd39b53563679545656fba1f4efd8e48faa0'
+    'xq_a_token' : 'c9d3b00a3bd89b210c0024ce7a2e049f437d4df3'
 }]
 
 
@@ -99,7 +99,7 @@ LOG_FILE_MIDDLEWARE = 'log-Middleware.log'
 # MongoDB settings
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27018
-MONGODB_DBNAME = 'XQ-1909'
+MONGODB_DBNAME = 'XQ-2001'
 
 # Redis
 # Enables scheduling storing requests queue in redis.

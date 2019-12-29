@@ -32,12 +32,14 @@ class CookiesGenerate(object):
 
         #代理配置
         if PROXY_ENABLED:
+            proxy = random.choice(PROXY)
             proxy_auth_plugin_path = create_proxy_auth_extension(
-                proxy_host=PROXYHOST,
-                proxy_port=PROXYPORT,
-                proxy_username=PROXYUSER,
-                proxy_password=PROXYPASS)
+                proxy_host=proxy['PROXYHOST'],
+                proxy_port=proxy['PROXYPORT'],
+                proxy_username=proxy['PROXYUSER'],
+                proxy_password=proxy['PROXYPASS'])
             self.option.add_extension(proxy_auth_plugin_path)
+
 
     def open(self):
         self.browser = webdriver.Chrome(chrome_options=self.option)
@@ -151,8 +153,8 @@ class CookiesGenerate(object):
                 res2=abs(rgb1[1]-rgb2[1])
                 res3=abs(rgb1[2]-rgb2[2])
                 if not (res1 < threshold and res2 < threshold and res3 < threshold):
-                    return i - 10
-        return i - 10
+                    return i - 7
+        return i - 7
 
 
     def get_tracks(self, distance):
