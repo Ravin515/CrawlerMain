@@ -34,7 +34,7 @@ USER_AGENTS = ["Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrow
 # Downloader middleware
 DOWNLOADER_MIDDLEWARES = {
     'crawler.middleware.RandomRequestHeaders': 100,
-    #'crawler.middleware.CustomHttpTunnelMiddleware': 200,
+    'crawler.middleware.CustomHttpTunnelMiddleware': 200,
     #'crawler.middleware.RandomCookies' : 300
 }
 
@@ -73,7 +73,7 @@ COOKIES_ENABLED = True
 COOKIES_DEBUG = False
 COOKIES = [{
     #每次更新数据都需要更新cookies！！
-    'xq_a_token' : 'c9d3b00a3bd89b210c0024ce7a2e049f437d4df3'
+    'xq_a_token' : 'e50af02165b86c42cf428646aec7411e6404439f'
 }]
 
 

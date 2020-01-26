@@ -22,7 +22,7 @@ class XQCubeRetSpider(RedisSpider):
     #handle_httpstatus_list = []
     website_possible_httpstatus_list = [301,302,404]
     handle_httpstatus_list = [301, 302]
-    cube_type = 'SP'
+    cube_type = 'ZH'
 
     def start_requests(self):
         zh_url = 'https://xueqiu.com/cubes/nav_daily/all.json?cube_symbol='

@@ -67,7 +67,7 @@ API_PROCESS = True
 
 #账户文件
 #ACCOUNTS_FILE = 'accounts.txt'
-ACCOUNTS_FILE = 'accounts2020.1.txt'
+ACCOUNTS_FILE = 'accounts.txt'
 
 # 循环周期
 CYCLE = 21600
