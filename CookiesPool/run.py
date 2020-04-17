@@ -10,7 +10,7 @@ def main():
     s.run()
 
     # 调试用以下代码
-    #username = '13455863320'
+    #username = '15255618838'
     #password = 'px274586'
     #l = CookiesGenerate(username,password)
     #cookie = l.main()

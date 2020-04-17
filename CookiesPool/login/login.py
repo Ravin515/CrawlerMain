@@ -274,6 +274,7 @@ class CookiesGenerate(object):
         try:
             while True:
                 self.open()
+                time.sleep(0.5)
                 #OCR验证码识别
                 self.Imgpath = 'login/template/screenImg.png'
                 self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="outer"]/div/div[2]/form/div/div[2]/div/p/a[1]'))).click()

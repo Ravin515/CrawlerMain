@@ -6,6 +6,7 @@ from scrapy import Request
 from scrapy.utils.request import request_fingerprint
 from crawler.items import XQItem
 from crawler.settings import *
+import time
 import json
 import re
 
@@ -14,7 +15,6 @@ class XQUserInfo(Spider):
     name = 'xq_user_cube'
     logger = util.set_logger(name, LOG_FILE_USER_STOCK)
     #handle_httpstatus_list = [404]
-    #cube_type = 'ZH'
 
     def start_requests(self):
         #start_url="https://xueqiu.com/stock/portfolio/stocks.json?size=5000&tuid="
@@ -35,11 +35,9 @@ class XQUserInfo(Spider):
 
             # progress
             if i%1000==0:
-                self.logger.info('%s (%s / %s) %s%%' % (owner_id, str(now_page_n), str(all_page_n), str(round(float(now_page_n) / all_page_n * 100, 1))))                   #util.get_progress(now_page = i, all_page = all_page_n, logger = self.logger, spider_name = self.name, start_at = self.start_at)
+                self.logger.info('%s (%s / %s) %s%%' % (owner_id, str(now_page_n), str(all_page_n), str(round(float(now_page_n) / all_page_n * 100, 1))))
 
-            yield Request(url = url,
-                        meta = {'user_id': owner_id},
-                        callback = self.parse)
+            yield Request(url = url, meta = {'user_id': owner_id}, callback = self.parse)
 
     def parse(self, response):
         try:
