@@ -25,12 +25,12 @@ class GubaExFundSpider(Spider):
             if type == 1:
                 for tab in range(1,7):
                     start_urls = start_url + str(type) + '&tab=' + str(tab)
-                    yield Request(url = start_urls, meta = {'type' : type}, callback = self.parse)
+                    yield Request(url = start_urls, meta = {'type' : type}, callback = self.parse,dont_filter=True)
             else:
                 start_urls = start_url + str(type)
-                yield Request(url = start_urls, meta = {'type' : type}, callback = self.parse)
+                yield Request(url = start_urls, meta = {'type' : type}, callback = self.parse,dont_filter=True)
     
-     #解析一开始的网址
+    #解析一开始的网址
     def parse(self, response):
         type =  response.meta['type']
         hxs = Selector(response)
@@ -48,8 +48,9 @@ class GubaExFundSpider(Spider):
                     url_stock = "http://guba.eastmoney.com/" + m_stocks.group(1)
                     item['content']['guba_url'] = url_stock
                     item['content']['guba_name'] = m_stocks.group(2)
+                    #url_stock == http://guba.eastmoney.com/list,000766.html
                     yield Request(url = url_stock, meta = {'item':item}, callback = self.parse_page_num)
-        
+
         #主题吧
         elif type ==2:
             stocks = hxs.xpath('//div[@class="allzhutilistb"]/ul/li/a').extract()
@@ -86,9 +87,8 @@ class GubaExFundSpider(Spider):
                 url_stock = "http://guba.eastmoney.com/" + m_stocks.group(1)
                 item['content']['guba_url'] = url_stock
                 item['content']['guba_name'] = m_stocks.group(2)
-
                 yield Request(url = url_stock, meta = {'item':item}, callback = self.parse_page_num)
-        
+
     #解析每个论坛的页数
     def parse_page_num(self, response):
         item = response.meta['item']
@@ -113,27 +113,28 @@ class GubaExFundSpider(Spider):
             if int(ptotal) ==0:
                 yield item
             else:
-                for i in range(int(ptotal)):
+                for i in range(1,int(ptotal)):
                     p_url = "http://guba.eastmoney.com/"+heads +str(i)+".html"
+                    #p_url == http://guba.eastmoney.com/list,000766_2.html
                     yield Request(p_url, meta = {'item':item}, callback = self.parse_post_list)
         else:
             yield item
     #抓取每个子吧的帖子条数并翻页
     def parse_post_list(self, response):
         hxs = Selector(response)
-        #posts = hxs.xpath('//div[@class="articleh "]').extract()
         posts = hxs.xpath('//div[@class="articleh normal_post"] | //div[@class="articleh normal_post odd"]').extract()
-        item = response.meta['item']
+        item = response.meta['item']        
         for post in posts:
-            readnum = Selector(text = post).xpath('//span[@class="l1"]/text()').extract()
+            readnum = Selector(text = post).xpath('//span[@class="l1 a1"]/text()').extract()
             if readnum:
                 readnum = readnum[0]
                 item['content']['readnum'] = readnum
-            replynum = Selector(text = post).xpath('//span[@class="l2"]/text()').extract()
+            replynum = Selector(text = post).xpath('//span[@class="l2 a2"]/text()').extract()
             if replynum:
                 replynum = replynum[0]
                 item['content']['replynum'] = replynum
-            url = Selector(text = post).xpath('//span[@class="l3"]/a/@href').extract()
+            #url == /news,000766,878875570.html
+            url = Selector(text = post).xpath('//span[@class="l3 a3"]//a//@href').extract()
             if url:
                 url = url[0]
                 guba_id = re.search(',(.+)_\d+\.html',response.url).group(1)                      
@@ -142,10 +143,11 @@ class GubaExFundSpider(Spider):
                     if m_stock:
                         post_url = "http://guba.eastmoney.com" + m_stock.group(1)
                         item['url'] = post_url
-                        post_id = re.search('\/(n.+)\.html', url).group(1)                      
+                        post_id = re.search('\/(n.+)\.html', url).group(1)
                         item['content']['post_id'] = post_id
                         yield Request(url = post_url, meta={'item': copy.deepcopy(item), 'replynum': replynum}, callback = self.parse_post)
-  
+
+    #解析具体的帖子
     def parse_post(self, response):
         try:
             if response.status == 200:
@@ -165,6 +167,7 @@ class GubaExFundSpider(Spider):
                 hxs =Selector(response)
                 item = response.meta['item']
                 dt = hxs.xpath('//div[@class="zwfbtime"]/text()').extract()[0]
+                #dt是帖子发表时间
                 dt = re.search('\D+(\d{4}-\d{2}-.+:\d{2})',dt).group(1)
                 creat_time = datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
                 item['content']['create_time'] = creat_time
@@ -225,8 +228,8 @@ class GubaExFundSpider(Spider):
                     yield item
 
         except Exception as ex:
-            self.logger.warn('Parse Exception all: %s %s' % (str(ex), response.url))
-
+            self.logger.warn('Parse Exception all: %s %s' % (str(ex), response.url))   
+    
     def parse_reply(self, response):
         page = response.meta['page']
         rptotal = response.meta['rptotal']
@@ -238,7 +241,7 @@ class GubaExFundSpider(Spider):
         for replist in replists:
             reply = {}
             try:
-                reply_author = Selector(text = replist).xpath('//div[@class="zwlianame"]//a/text()').extract()[0]
+                reply_author = Selector(text = replist).xpath('//div[@class="zwlianame"]//a//font/text()').extract()[0]
                 reply['reply_author'] = reply_author
                 reply_author_url = Selector(text = replist).xpath('//div[@class="zwlianame"]//a/@href').extract()[0]
                 reply['reply_author_url'] = reply_author_url
@@ -276,7 +279,7 @@ class GubaExFundSpider(Spider):
                 reply['reply_quote_content'] =  reply_quote_text
            
             item['content']['reply'].append(reply)
-            
+        
         if page == rptotal:
            yield item
         elif page < rptotal:

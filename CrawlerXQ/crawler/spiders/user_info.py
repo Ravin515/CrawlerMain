@@ -17,7 +17,6 @@ class XQUserInfo(Spider):
     name = 'xq_user_info'
     logger = util.set_logger(name, LOG_FILE_USER_INFO)
     #handle_httpstatus_list = [404]
-    #cube_type = 'SP'
 
     def start_requests(self):
         start_url="https://xueqiu.com/user/show.json?id="
@@ -38,8 +37,7 @@ class XQUserInfo(Spider):
 
             # progress
             if i%1000==0:
-                self.logger.info('%s (%s / %s) %s%%' % (owner_id, str(now_page_n), str(all_page_n), str(round(float(now_page_n) / all_page_n * 100, 1))))                    #util.get_progress(now_page = i, all_page = all_page_n, logger = self.logger, spider_name = self.name, start_at = self.start_at)
-
+                self.logger.info('%s (%s / %s) %s%%' % (owner_id, str(now_page_n), str(all_page_n), str(round(float(now_page_n) / all_page_n * 100, 1)))) 
             yield Request(url = url,
                         meta = {'user_id': owner_id},
                         callback = self.parse)

@@ -14,11 +14,10 @@ class XQUserInfo(Spider):
     name = 'xq_user_stock'
     logger = util.set_logger(name, LOG_FILE_USER_STOCK)
     #handle_httpstatus_list = [404]
-    cube_type = 'ZH'
 
     def start_requests(self):
         #start_url="https://xueqiu.com/stock/portfolio/stocks.json?size=5000&tuid="
-        start_url = "https://stock.xueqiu.com/v5/stock/portfolio/stock/list.json?size=10000&category=3&pid=-1&uid="
+        start_url = "https://stock.xueqiu.com/v5/stock/portfolio/stock/list.json?size=10000&category=1&pid=-1&uid="
 
         # get start url from MongoDB
         db = util.set_mongo_server()

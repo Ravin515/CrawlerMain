@@ -25,12 +25,29 @@ REDIS_PORT = 6379
 
 #是否启用代理
 PROXY_ENABLED = False
-# 代理服务器
-PROXYHOST = "http-dyn.abuyun.com"
-PROXYPORT = "9020"
-# 代理隧道验证信息
-PROXYUSER = "H99W6243N871G8ID"
-PROXYPASS = "4BE572DD58A9F77C"
+# 代理服务器,讯代理购买固定ip
+PROXY = [
+    {
+        'PROXYHOST' : '122.114.36.243',
+        'PROXYPORT' : 23128,
+        'PROXYUSER' : '5cdoqbzcyk',
+        'PROXYPASS' : 'tuhpljuuzl'
+        },
+    {
+        'PROXYHOST' : "118.89.192.96",
+        'PROXYPORT' : 23128,
+        'PROXYUSER' : "nhfkriwg8e",
+        'PROXYPASS' : "3nl7aruttq"
+        },
+    {
+        'PROXYHOST' : "47.104.79.229",
+        'PROXYPORT' : 23128,
+        'PROXYUSER' : "xzwud7ager",
+        'PROXYPASS' : "jrp9nignuj"
+        }
+    ]
+
+
 
 #Log信息
 LOG_LEVEL = 'INFO'
@@ -49,6 +66,7 @@ VALID_PROCESS = False
 API_PROCESS = True
 
 #账户文件
+#ACCOUNTS_FILE = 'accounts.txt'
 ACCOUNTS_FILE = 'accounts.txt'
 
 # 循环周期
@@ -60,3 +78,7 @@ GENERATOR_MAP = {
 }
 
 TEST_URL = 'https://xueqiu.com/P/SP1000524'
+
+
+
+

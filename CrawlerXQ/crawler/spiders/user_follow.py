@@ -16,9 +16,10 @@ class XQUserGuanzhu(Spider):
     name = 'xq_user_follow'
     logger = util.set_logger(name, LOG_FILE_USER_GUANZHU)
     #handle_httpstatus_list = [404]
-    #cube_type = 'SP'
+    # 上次维护的时间，每次更新
+    start_time = time.strptime("2020-01-01", "%Y-%m-%d")
 
-    def start_requests(self):
+    def start_requestss(self):
         start_url="http://xueqiu.com/friendships/groups/members.json?count=200&gid=0&uid="
 
         # get start url from MongoDB
@@ -38,7 +39,6 @@ class XQUserGuanzhu(Spider):
             # progress
             if i%1000==0:
                 self.logger.info('%s (%s / %s) %s%%' % (owner_id, str(now_page_n), str(all_page_n), str(round(float(now_page_n) / all_page_n * 100, 1))))     
-                #util.get_progress(now_page = i, all_page = all_page_n, logger = self.logger, spider_name = self.name, start_at = self.start_at)
 
             yield Request(url = url,
                         meta = {'user_id': owner_id},
@@ -50,6 +50,8 @@ class XQUserGuanzhu(Spider):
                 content = json.loads(response.body.decode('utf-8'))
                 if content['maxPage']:
                     max_page = content['maxPage']
+
+
 
                     # First page, use parse_gz
                     for item in self.parse_gz(response = response):

@@ -34,8 +34,8 @@ USER_AGENTS = ["Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrow
 # Downloader middleware
 DOWNLOADER_MIDDLEWARES = {
     'crawler.middleware.RandomRequestHeaders': 100,
-    'crawler.middleware.CustomHttpTunnelMiddleware': 200,
-    'crawler.middleware.RandomCookies' : 300
+    #'crawler.middleware.CustomHttpTunnelMiddleware': 200,
+    #'crawler.middleware.RandomCookies' : 300
 }
 
 # Download delay
@@ -73,7 +73,7 @@ COOKIES_ENABLED = True
 COOKIES_DEBUG = False
 COOKIES = [{
     #每次更新数据都需要更新cookies！！
-    #'xq_a_token' : '17067303557fc0af0961063ffb2aa2341c3132a4'
+    'xq_a_token' : '48575b79f8efa6d34166cc7bdc5abb09fd83ce63'
 }]
 
 
@@ -99,7 +99,7 @@ LOG_FILE_MIDDLEWARE = 'log-Middleware.log'
 # MongoDB settings
 MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27019
-MONGODB_DBNAME = 'XQ-1905'
+MONGODB_DBNAME = 'XQ-2004'
 
 # Redis
 # Enables scheduling storing requests queue in redis.

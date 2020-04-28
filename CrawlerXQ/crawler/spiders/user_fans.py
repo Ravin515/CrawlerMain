@@ -15,8 +15,6 @@ class XQUserFensi(Spider):
     name = 'xq_user_fans'
     logger = util.set_logger(name, LOG_FILE_USER_FENSI)
     #handle_httpstatus_list = [404]
-    #cube_type = 'SP'
-
 
     def start_requests(self):
         start_url="http://xueqiu.com/friendships/followers.json?size=50&uid="

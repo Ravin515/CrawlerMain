@@ -32,12 +32,14 @@ class CookiesGenerate(object):
 
         #代理配置
         if PROXY_ENABLED:
+            proxy = random.choice(PROXY)
             proxy_auth_plugin_path = create_proxy_auth_extension(
-                proxy_host=PROXYHOST,
-                proxy_port=PROXYPORT,
-                proxy_username=PROXYUSER,
-                proxy_password=PROXYPASS)
+                proxy_host=proxy['PROXYHOST'],
+                proxy_port=proxy['PROXYPORT'],
+                proxy_username=proxy['PROXYUSER'],
+                proxy_password=proxy['PROXYPASS'])
             self.option.add_extension(proxy_auth_plugin_path)
+
 
     def open(self):
         self.browser = webdriver.Chrome(chrome_options=self.option)
@@ -50,7 +52,7 @@ class CookiesGenerate(object):
         #找到首页上的登录按钮并点击
         self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/nav/div[1]/div[2]/div/div'))).click()
         #找到登录界面的微博登录按钮并点击
-        self.wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[3]/div[1]/div/div/div[2]/div[5]/ul/li[3]/a/i'))).click()
+        self.wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div[1]/div/div/div[2]/div[5]/ul/li[3]/a/i'))).click()
         #找到账号密码登录按钮并点击
         time.sleep(0.5)
         self.browser.switch_to.window(self.browser.window_handles[1])
@@ -151,8 +153,8 @@ class CookiesGenerate(object):
                 res2=abs(rgb1[1]-rgb2[1])
                 res3=abs(rgb1[2]-rgb2[2])
                 if not (res1 < threshold and res2 < threshold and res3 < threshold):
-                    return i - 10
-        return i - 10
+                    return i - 7
+        return i - 7
 
 
     def get_tracks(self, distance):
@@ -272,6 +274,7 @@ class CookiesGenerate(object):
         try:
             while True:
                 self.open()
+                time.sleep(0.5)
                 #OCR验证码识别
                 self.Imgpath = 'login/template/screenImg.png'
                 self.wait.until(EC.element_to_be_clickable((By.XPATH, '//*[@id="outer"]/div/div[2]/form/div/div[2]/div/p/a[1]'))).click()
